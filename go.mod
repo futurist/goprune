@@ -1,6 +1,6 @@
 module test.com/x/goprune
 
-go 1.19
+go 1.18
 
 require (
 	golang.org/x/exp v0.0.0-20230127140709-cafedaf64729 // indirect
