@@ -1,4 +1,4 @@
-module test.com/x/goprune
+module github.com/futurist/goprune
 
 go 1.18
 

@@ -5,8 +5,8 @@ import (
 	"os"
 	"path"
 
+	"github.com/futurist/goprune/lib"
 	"golang.org/x/mod/modfile"
-	"test.com/x/goprune/lib"
 )
 
 func main() {
