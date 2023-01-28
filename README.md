@@ -26,3 +26,10 @@ Below steps will be applied:
 
 With `DRY_RUN=1` environment variable been set, will print removed files but not do the removal in step 5.
 With `NO_TEST=1` environment variable been set, will also remove go test files in step 5.
+
+## Other
+
+You may not need this module, since sometimes `go list` also can do the job:
+```sh
+go list -f '{{ join .Deps  "\n"}}' ./cmd/
+```
