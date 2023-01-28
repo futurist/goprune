@@ -16,6 +16,7 @@ import (
 
 type State struct {
 	DryRun bool
+	NoTest bool
 	Base   string
 	Root   string
 	Files  []string
@@ -73,6 +74,9 @@ func Process(file string, state *State) {
 			if de.IsDir() || !strings.HasSuffix(de.Name(), ".go") {
 				continue
 			}
+			if state.NoTest && strings.HasSuffix(de.Name(), "_test.go") {
+				continue
+			}
 			nextFile := path.Join(nextFolder, de.Name())
 			if slices.Contains(state.Files, nextFile) {
 				continue
@@ -83,23 +87,30 @@ func Process(file string, state *State) {
 	})
 }
 
-func Prune(state *State) {
-	err := filepath.Walk(state.Root, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		if !strings.HasSuffix(path, ".go") || info.IsDir() {
-			return nil
-		}
-		if !slices.Contains(state.Files, path) {
-			if !state.DryRun {
-				os.Remove(path)
+func Prune(states []State) {
+	files := make([]string, 0)
+	for _, state := range states {
+		files = append(files, state.Files...)
+	}
+
+	for _, state := range states {
+		err := filepath.Walk(state.Root, func(path string, info os.FileInfo, err error) error {
+			if err != nil {
+				return err
 			}
-			fmt.Println("removed:", path)
+			if !strings.HasSuffix(path, ".go") || info.IsDir() {
+				return nil
+			}
+			if !slices.Contains(files, path) {
+				if !state.DryRun {
+					os.Remove(path)
+				}
+				fmt.Println("removed:", path)
+			}
+			return nil
+		})
+		if err != nil {
+			fmt.Println(err)
 		}
-		return nil
-	})
-	if err != nil {
-		fmt.Println(err)
 	}
 }

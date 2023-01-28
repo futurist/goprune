@@ -11,7 +11,7 @@ go install github.com/futurist/goprune@latest
 ## Usage
 
 ```sh
-goprune abs_path_of_main_or_lib.go
+goprune abs_path_of_main_or_lib.go ...
 ```
 
 Below steps will be applied:
@@ -22,4 +22,5 @@ Below steps will be applied:
 4. Loop step 3 with imported packages until no files left.
 5. Remove all go source files that have not been walked (not used).
 
-With `DRY_RUN=1` environment variable been set, will print removed files but not do the removal(step 5).
+With `DRY_RUN=1` environment variable been set, will print removed files but not do the removal in step 5.
+With `NO_TEST=1` environment variable been set, will also remove go test files in step 5.
