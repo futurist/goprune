@@ -29,7 +29,9 @@ With `NO_TEST=1` environment variable been set, will also remove go test files i
 
 ## Other
 
-You may not need this module, since sometimes `go list` also can do the job:
+Another way is to use `go list`:
 ```sh
 go list -f '{{ join .Deps  "\n"}}' ./cmd/
 ```
+
+But it's need more jobs to filter and prune, this tool provide more handy way to do the job.
